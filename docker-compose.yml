@@ -6,9 +6,7 @@ services:
     build: elasticsearch/
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-    ports:
-      - "9200:9200"
-      - "9300:9300"
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -20,7 +18,8 @@ services:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     ports:
-      - "5000:5000"
+      - "5000:5000" # json tcp
+      - "5001:5001" # nginx beats
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
